@@ -1,0 +1,337 @@
+---
+title: "Case Study 02"
+author: "Salomon Gilles"
+date: "July 23, 2016"
+output: 
+  html_document:
+    keep_md: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(fpp) # for time series forecasting and analysis
+library(forecast) # for some other forecasting models
+```
+
+## Chulwalar Study
+
+This document is an attempt to forecast exports for 2014 based on the raw data for previous years, mainly 2008 through 2013. We examine the rw data provided as "ASIS" and compare/contrast with anticipated levels or predicted level of exports whcih are given here as "PLAN". We analyze using various statistical methods and draw or conclusion or recomendation for the best method which optimizes exports. There are certain indicators for this which are also taken into account by our study.
+
+Our data source is based on the "Chulwalar Study."
+
+<!--- read data into rmarkdown from disk  --->
+```{r echo=FALSE, warning=FALSE, quiet=TRUE}
+knitr::read_chunk("C:\\SMU-HomeWork\\DataScience\\CaseStudy02\\SGilles_CaseStudy02\\ChulwalarLoadData.R")
+```
+
+<!--- read code from disk into rmarkdown --->
+```{r echo=FALSE, warning=FALSE, message=FALSE, quiet=TRUE}
+knitr::read_chunk("C:\\SMU-HomeWork\\DataScience\\CaseStudy02\\SGilles_CaseStudy02\\ChulwalarAnalyzer.R")
+```
+
+#### Study Type: ####
+The data is time-based, thus as a time series, we create the right data structures to hold yearly data, segmented into each month's production, and product-type and total for both "As Is" and "Plan" data.
+
+<br>
+
+<!--- initialize chunks so they can be referenced --->
+```{r ChulDataLoader,  echo=FALSE, warning=FALSE, message=FALSE, quiet=TRUE}
+```
+
+<!--- run chunk analyzing portolio --->
+
+
+#### Basic data analysis: ####
+The best way to start is by visualizing the raw data graphically. To get a really good view of the data, we juxtapose the "as is" and the "plan" plots of the raw data. This juxtaposition depict a trend characterized by downward and upward trend each year. From January, the exports in the "as is" as well as the "plan" start decreasing after and that continues until it hits bottom by mid-year. Then in preparation of the high December and next March Equinox demands, exports take an upward trend again.
+
+The lines do have some bumps, so we will try various tools to investigate.
+
+```{r analyzeBuzporfolio,  echo=FALSE, warning=FALSE, quiet=TRUE}
+```
+
+#### Correlation between "As Is and Plan" Data: ####
+
+There is a very strong correlation between the "as is" and "plan" year after year. This correlationship is portrayed by a positive quantitive data as below which testify to very accurate planning.
+
+```{r corrAsisPlandata,  echo=FALSE, warning=FALSE, quiet=TRUE}
+```
+<br>
+
+#### Time Series Decomposition with STL ####
+
+In order to segment the time series data into the components of trend, seasonality and coincidentals (remainder), we employ the stl function. Thanks to this segmentation, we notice a clear linearity and seasonality trend of total exports.
+
+```{r timeseriesStl,  echo=FALSE, warning=FALSE, quiet=TRUE}
+```
+<br>
+
+Individual segments do not seem to display the linearity observed in the total "as is" data which follows.
+
+```{r timeseriesStlTrend,  echo=FALSE, warning=FALSE, quiet=TRUE}
+```
+
+#### Modification of seasonal component into monthly base ####
+
+This monthly view provided by the modification of the seasonlity component does not make sense due to the fact that there is no correlation between the seasonality factor and the trend.
+
+```{r modifySeasonalMonthlyBase,  echo=FALSE, warning=FALSE, quiet=TRUE}
+```
+<br>
+
+#### The following indicators are to be tested: ####
+
+*   1   Monthly Change in Export Price Index (CEPI)
+*  	2 	Monthly Satisfaction Index (SI) government based data
+*  	3 	Average monthly temperatures in Chulwalar
+*  	4 	Monthly births in Chulwalar
+*  	5 	Monthly Satisfaction Index (SI) external index 
+*  	6 	Yearly Exports from Urbano
+*  	7 	Yearly number of Globalisation Party members in Chulwalar
+*  	8 	Monthly Average Export Price Index for Chulwalar
+*  	9 	Monthly Producer Price Index (PPI) for Etel in Chulwalar
+*  	10 	National Holidays
+*  	11 	Chulwalar Index (Total value of all companies in Chulwalar)
+*  	12	Monthly Inflation rate in Chulwalar
+*	  13	Proposed spending for National Holidays
+*   14  Influence of National Holiday
+
+The indicators will be converted into individual  vectors and subsequently converted into time series. The correlation of the indicators will then be tested against the As Is exports for Chulwalar. 
+
+<br>
+
+#### Monthly Change in Export Price Index (CEPI) ####
+The monthly change in export price index is great. A continuous increase and higher than previous year.
+
+```{r corrCEPIData,  echo=FALSE, warning=FALSE, quiet=TRUE}
+```
+
+<br>
+
+#### Monthly Satisfaction Index (SI) government based data ####
+Monthly Satisfaction Index (SI) for government is also showing an upward treand inspite of some slowdown in the previous year.
+
+```{r corrSIData,  echo=FALSE, warning=FALSE, quiet=TRUE}
+```
+
+<br>
+
+#### Average monthly temperatures in Chulwalar ####
+The average temperature is also very favorable. It stands at the same level with previous years.
+
+```{r corrAVGTmpData,  echo=FALSE, warning=FALSE, quiet=TRUE}
+```
+
+<br>
+
+#### Monthly births in Chulwalar ####
+Monthly births seem little sharper for 2014 than in previous years. This is very favorable.
+
+```{r corrBirthsData,  echo=FALSE, warning=FALSE, quiet=TRUE}
+```
+
+<br>
+
+#### Monthly Satisfaction Index (SI) external index ####
+The monthly satisfaction external index is also at its highest. Very favorable as well.
+
+```{r corrXSImpData,  echo=FALSE, warning=FALSE, quiet=TRUE}
+```
+
+<br>
+
+#### Yearly Exports from Urbano ####
+Urban exports are also at their highest and very favorable.
+
+```{r corrUrbanoXportsData,  echo=FALSE, warning=FALSE, quiet=TRUE}
+```
+
+<br>
+
+#### Yearly number of Globalisation Party members in Chulwalar ####
+Same high numbers for globalisation pary members.
+
+```{r corrGlobalizationData,  echo=FALSE, warning=FALSE, quiet=TRUE}
+```
+
+<br>
+
+#### Monthly Average Export Price Index for Chulwalar ####
+We see the same high numbers for monthly export price index.
+
+```{r corrAVGXPIData,  echo=FALSE, warning=FALSE, quiet=TRUE}
+```
+
+<br>
+
+#### Monthly Producer Price Index (PPI) for Etel in Chulwalar ####
+Montly producer price index is trending high as well showing the same favorability.
+
+```{r corrPPIData,  echo=FALSE, warning=FALSE, quiet=TRUE}
+```
+
+<br>
+
+#### National Holidays ####
+The same strong trending for national holidy predictions.
+
+```{r corrNHData,  echo=FALSE, warning=FALSE, quiet=TRUE}
+```
+
+<br>
+
+#### Chulwalar Index (Total value of all companies in Chulwalar) ####
+Chulwalar Index of all companies is at its highest.
+
+```{r corrCIData,  echo=FALSE, warning=FALSE, quiet=TRUE}
+```
+
+<br>
+
+#### Chulwalar Index - Inflation (Total value of all companies in Chulwalar) ####
+Inflation is taking a downward trend thus encouraging for  export.
+
+```{r corrMIRData,  echo=FALSE, warning=FALSE, quiet=TRUE}
+```
+
+<br>
+
+####  Proposed spending for National Holidays ####
+This is the time - record levels ever for spending expected.
+
+```{r corrPNHData,  echo=FALSE, warning=FALSE, quiet=TRUE}
+```
+
+<br>
+
+#### Influence of National Holidays ####
+Influence of national holidays is very favorable for 2014 and stands in tandem with previous years.
+
+```{r corrINHData,  echo=FALSE, warning=FALSE, quiet=TRUE}
+```
+
+<br>
+
+#### Influence of National Holidays ####
+Very data for if any correction needs to be applied
+```{r corrCheckData, echo=FALSE, message=FALSE, warning=FALSE, quiet=TRUE}
+
+```
+
+<br>
+
+####  Forecasting model: high correlation indicators   ####
+
+
+```{r modelsForecastsWithHighCorrelIndicator,  echo=FALSE, warning=FALSE, quiet=TRUE}
+```
+
+<br>
+
+####  Forecasting model: indicators with one another   ####
+
+
+```{r corrIndicatorWithEachOther,  echo=FALSE, warning=FALSE, quiet=TRUE}
+```
+
+<br>
+
+####  Forecasting model: All Indicators   ####
+
+
+```{r modelWithAllIndicators,  echo=FALSE, warning=FALSE, quiet=TRUE}
+```
+
+<br>
+
+<!--- reduce size of time series for to improve forecast testing  --->
+```{r modelsForecasts,  echo=FALSE, warning=FALSE, quiet=TRUE}
+```
+
+<br>
+
+####  Forecasting model: Low Correlation Indicator   ####
+```{r modelsForecastsWithLowCorrelIndicator,  echo=FALSE, warning=FALSE, quiet=TRUE}
+```
+
+
+<br>
+
+####  Forecasting model: Trend and Seasonality   ####
+```{r modelsForecastsWithTrendAndSeasonality,  echo=FALSE, warning=FALSE, quiet=TRUE}
+```
+
+
+<br>
+
+####  Forecasting model: EFak Exports Indicator   ####
+```{r modelsWithEfakeXportsIndicator,  echo=FALSE, warning=FALSE, quiet=TRUE}
+```
+
+<br>
+
+####  Forecasting model: Wuge Export Indicator   ####
+```{r modelsWithWugeXportIndicator,  echo=FALSE, warning=FALSE, quiet=TRUE}
+```
+<br>
+
+####  Forecasting model:  Total Etel   ####
+```{r forcastModelTotalEtel,  echo=FALSE, warning=FALSE, quiet=TRUE}
+```
+
+<br>
+
+####  Forecasting model: Total Urban Exports    ####
+```{r forcastModelWithTotalUrbanoExports,  echo=FALSE, warning=FALSE, quiet=TRUE}
+```
+
+<br>
+
+####  Forecasting model:  National Holidys  ####
+```{r forcastModelWithNationalHolidays,  echo=FALSE, warning=FALSE, quiet=TRUE}
+```
+
+<br>
+
+####  Forecasting model: Influencing National Holidays   ####
+```{r forcastModelWithInfluenceNationalHolidays,  echo=FALSE, warning=FALSE, quiet=TRUE}
+```
+
+<br>
+
+## 2014 Forecasts ##
+####  Forecasting model:  2014  ####
+```{r forcastfor2014,  echo=FALSE, warning=FALSE, quiet=TRUE}
+```
+
+<br>
+
+####  Forecasting model: Simple Exponential Smoothing   ####
+```{r SimpleXponentialSmoothing,  echo=FALSE, warning=FALSE, quiet=TRUE}
+```
+
+<br>
+
+####  Forecasting model:Holt Linear Trend Efak Indicators   ####
+```{r holtLinearTrendMethod,  echo=FALSE, warning=FALSE, quiet=TRUE}
+```
+
+<br>
+
+####  Forecasting model: Holt Winter Seasonal Efak Exports   ####
+```{r holtWinterSeasonalMethod,  echo=FALSE, warning=FALSE, quiet=TRUE}
+```
+
+<br>
+
+## Conclusion ##
+
+In conclusion, like my earlier introductory comments after examining the raw data for both production and planned exports, I believe the planners 2014 forecast do significantly look really great. If I was not constrained by case study, I would have stopped here. Nonetheless, I examined the data through some statistical tools.
+
+Given that, time series are based on seasonality, trending and other factors - noise, I looked at national holidays and inflation to try to make something out of it. 
+
+The STL function brought out the segmentation that through more light on the data. The Holt, Holt-Winters and SES exhibit high correlation between the interested variables.  
+
+That makes it hard to pick one.
+
+I will say any of those forecasting methods will do fine. But I will recommend just leaving the planned Chulwalar predictions for 2014.
+
